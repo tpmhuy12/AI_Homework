@@ -6,9 +6,9 @@ from matplotlib import pyplot as plt
 # Khai báo các biến mờ
 # Mức độ cấp bách 
 Urgency = ctrl.Antecedent(np.arange(0, 101, 1), 'Urgency')
-Urgency['S'] = fuzz.trimf(Urgency.universe, [0, 0, 30])      # Hiếm
+Urgency['L'] = fuzz.trimf(Urgency.universe, [0, 0, 30])      # Hiếm
 Urgency['M'] = fuzz.trimf(Urgency.universe,[20, 50, 80])      # Thỉnh thoảng
-Urgency['C'] = fuzz.trimf(Urgency.universe, [70, 100, 100])    # Thường xuyên
+Urgency['H'] = fuzz.trimf(Urgency.universe, [70, 100, 100])    # Thường xuyên
 
 # Mức độ phức tạp
 Complexity = ctrl.Antecedent(np.arange(0, 101, 1), 'Complexity')
@@ -23,15 +23,16 @@ Response_priority['N'] = fuzz.trimf(Response_priority.universe, [20, 50, 80])   
 Response_priority['H'] = fuzz.trimf(Response_priority.universe, [70, 100, 100])    # Cao
 
 
-# Các luật shopee
+# Các luật
 
-rule1 = ctrl.Rule(Urgency['S'] & Complexity['S'], Response_priority['L'])  # Hiếm truy cập, giá trị mua thấp, tương tác thấp -> Chú ý thấp
-rule2 = ctrl.Rule(Urgency['M'] & Complexity['M'], Response_priority['N'])  # Thỉnh thoảng truy cập, giá trị mua trung bình, tương tác trung bình -> Chú ý trung bình
-rule3 = ctrl.Rule(Urgency['C'] & Complexity['S'], Response_priority['H'])  # Thường xuyên truy cập, giá trị mua thấp, tương tác thấp -> Chú ý cao
-rule4 = ctrl.Rule(Urgency['C'] & Complexity['C'], Response_priority['H'])  # Hiếm truy cập, giá trị mua cao, tương tác cao -> Chú ý trung bình
-rule5 = ctrl.Rule(Urgency['S'] & Complexity['C'], Response_priority['N'])  # Hiếm truy cập, giá trị mua cao, tương tác cao -> Chú ý trung bình
-rule6 = ctrl.Rule(Urgency['M'] & Complexity['S'], Response_priority['L'])  # Thỉnh thoảng truy cập, giá trị mua thấp, tương tác thấp -> Chú ý thấp
-rule7 = ctrl.Rule(Urgency['C'] & Complexity['M'], Response_priority['N'])  # Thường xuyên truy cập, giá trị mua trung bình, tương tác trung bình -> Chú ý trung bình
+rule1 = ctrl.Rule(Urgency['L'] & Complexity['S'], Response_priority['L'])  # Cấp bách thấp + Phức tạp đơn giản  →  Ưu tiên phản hồi THẤP
+rule2 = ctrl.Rule(Urgency['M'] & Complexity['M'], Response_priority['N'])  # Cấp bách trung bình + Phức tạp vừa  →  Ưu tiên phản hồi TRUNG BÌNH
+rule3 = ctrl.Rule(Urgency['H'] & Complexity['S'], Response_priority['H'])  # Cấp bách cao  + Phức tạp đơn giản  →  Ưu tiên phản hồi CAO
+rule4 = ctrl.Rule(Urgency['H'] & Complexity['C'], Response_priority['H'])  # Cấp bách cao  + Phức tạp phức tạp  →  Ưu tiên phản hồi CAO (có thể chuyển người)
+rule5 = ctrl.Rule(Urgency['L'] & Complexity['C'], Response_priority['N'])  # Cấp bách thấp + Phức tạp phức tạp  →  Ưu tiên phản hồi TRUNG BÌNH
+rule6 = ctrl.Rule(Urgency['M'] & Complexity['S'], Response_priority['L'])  # Cấp bách trung bình + Phức tạp đơn giản  →  Ưu tiên phản hồi THẤP
+rule7 = ctrl.Rule(Urgency['H'] & Complexity['M'], Response_priority['N'])  # Cấp bách cao  + Phức tạp vừa  →  Ưu tiên phản hồi TRUNG BÌNH
+
 
 # Khởi tạo hệ thống và mô phỏng
 control_system = ctrl.ControlSystem([

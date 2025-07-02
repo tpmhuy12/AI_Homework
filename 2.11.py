@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 RideDistance = ctrl.Antecedent(np.arange(0, 51, 1), 'RideDistance')
 TrafficCon = ctrl.Antecedent(np.arange(0, 101, 1), 'TrafficCon')
 DemandLv = ctrl.Antecedent(np.arange(0, 101, 1), 'DemandLv')
-WeatherCon = ctrl.Antecedent(np.arange(0, 6, 1), 'WeatherCon')
+WeatherCon = ctrl.Antecedent(np.arange(0, 6, 0.5), 'WeatherCon')
 CusRate = ctrl.Antecedent(np.arange(1, 5.5, 0.5), 'CusRate')
 RidePunc = ctrl.Antecedent(np.arange(0, 101, 1), 'RidePunc')
 
@@ -33,7 +33,7 @@ DemandLv["H"] = fuzz.trimf(DemandLv.universe, [60, 80, 100])   # Nhu cầu cao
 
 # Hàm thành viên cho WeatherCon/ Điều kiện thời tiết
 WeatherCon["B"] = fuzz.trimf(WeatherCon.universe, [0, 0, 2])     # bad
-WeatherCon["M"] = fuzz.trimf(WeatherCon.universe, [2, 3, 4])     # Moderate
+WeatherCon["M"] = fuzz.trimf(WeatherCon.universe, [1.5, 3, 4])     # Moderate
 WeatherCon["G"] = fuzz.trimf(WeatherCon.universe, [3, 4, 5])     # Good
 
 # Hàm thành viên cho CusRate / Đánh giá khách hàng
@@ -47,13 +47,13 @@ RidePunc["O"] = fuzz.trimf(RidePunc.universe, [40, 60, 80]) # Đúng giờ
 RidePunc["E"] = fuzz.trimf(RidePunc.universe, [70, 85, 100])# Sớm
 
 # Hàm thành viên cho Price  # Giá
-Price["L"] = fuzz.trimf(Price.universe, [0, 0, 3])  # Giá thấp
+Price["L"] = fuzz.trimf(Price.universe, [0, 0, 4])  # Giá thấp
 Price["M"] = fuzz.trimf(Price.universe, [3, 5, 7])  # Giá trung bình
 Price["H"] = fuzz.trimf(Price.universe, [5, 7, 9]) # Giá cao
 Price["VH"] = fuzz.trimf(Price.universe, [8, 10, 10])    # Giá rất cao
 
 # Hàm thành viên cho RePoint    # Điểm thưởng
-RePoint["N"] = fuzz.trimf(RePoint.universe, [0, 0, 2])  # Không có điểm thưởng
+RePoint["N"] = fuzz.trimf(RePoint.universe, [0, 0, 4])  # Không có điểm thưởng
 RePoint["F"] = fuzz.trimf(RePoint.universe, [3, 5, 7])  # Điểm thưởng ít
 RePoint["M"] = fuzz.trimf(RePoint.universe, [5, 7, 9])  # Điểm thưởng trung bình
 RePoint["H"] = fuzz.trimf(RePoint.universe, [7, 9, 10])  # Điểm thưởng cao
